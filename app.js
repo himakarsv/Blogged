@@ -10,9 +10,14 @@ const cookieParser=require("cookie-parser");
 const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 const port=process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGO_URL).then((e)=>{
-    console.log("Database connected")
+const mongoURI = process.env.MONGO_URL;
+console.log('MongoDB URI:', mongoURI); 
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 app.set("view engine","ejs");
 app.set("views",path.resolve("./views"))
